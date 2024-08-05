@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Map Integration</title>
+</head>
+<body>
+    <iframe src="https://shipsgo.com/iframe/where-is-my-container/TEST1234567" id="IframeShipsgoLiveMap" style="height: 550px; width: 100%;"></iframe>
+
+    <script>
+        if (window.addEventListener) {
+            window.addEventListener("message", ShipsgoMessagesListener);
+        }
+
+        function ShipsgoMessagesListener() {
+            if (event.data.Action === "LoadNewContainerCode") {
+                document.getElementById("IframeShipsgoLiveMap").src = "https://shipsgo.com/iframe/where-is-my-container/" + event.data.Parameters.ContainerCode;
+            }
+        }
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var defaultQuery = urlParams.get('query');
+
+        if (defaultQuery === undefined || defaultQuery === null) {
+            defaultQuery = "default-container-code";
+        }
+
+        document.getElementById("IframeShipsgoLiveMap").src = "https://shipsgo.com/iframe/where-is-my-container/" + defaultQuery;
+    </script>
+</body>
+</html>
